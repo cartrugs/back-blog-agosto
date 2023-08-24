@@ -30,6 +30,8 @@ dbConnect(); // Función para establecer la conexión a la base de datos MongoDB
  * Configuración de middlewares
  */
 
+app.use(express.urlencoded({ extended: false })); // Middleware para analizar los datos de formularios en las peticiones.
+
 app.use(express.json()); // Middleware para analizar el cuerpo de las peticiones en formato JSON.
 
 /*--------------------------------------- RUTAS ---------------------------------------*/
@@ -39,6 +41,8 @@ app.use(express.json()); // Middleware para analizar el cuerpo de las peticiones
  */
 app.use('/api/v1/blog', require('./routes/backRoutes')); // Utiliza las rutas definidas en el archivo backRoutes.js para las peticiones bajo el prefijo '/api/v1/blog'
 
+app.use('/api/v1/blog', require('./routes/authRouters')); // Utiliza las rutas definidas en el archivo authRoutes.js para las peticiones bajo el prefijo '/api/v1/blog'
+
 /**
  * Inicia el servidor
  */
@@ -46,3 +50,4 @@ app.listen(port, ()=>{
     console.log(`Servidor a la escucha del puerto ${port}`)
 
 });
+
