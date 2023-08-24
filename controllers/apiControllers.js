@@ -44,21 +44,31 @@ const obtenerArticulo = async (req, res) => {
 
 /*--------------------------------------- RECOGER UN ARTÍCULO ---------------------------------------*/
 
+/**
+ * Buscar un artículo por su título en la base de datos.
+ *
+ * @param {Object} req - Objeto de solicitud HTTP.
+ * @param {Object} res - Objeto de respuesta HTTP.
+ * @returns {Object} - Objeto JSON con el resultado de la búsqueda del artículo.
+ */
 const buscarUnArticuloPorNombre = async (req, res) => {
 
+    // Extraer el título del artículo de los parámetros de la solicitud
     const titulo = await req.params.title;
 
     try {
-
+        // Buscar un artículo en la base de datos con el título especificado
         const existe = await Articulo.findOne( { title: titulo });
 
         if (existe) {
+            // Si se encontró el artículo, devolver una respuesta exitosa con los detalles del artículo.
             return res.status(200).json({
                 ok: true,
                 msg: 'Artículo encontrado',
                 data: existe
             });  
         } else {
+            // Si no se encontró el artículo, devolver un error 400 con un mensaje descriptivo.
             return res.status(400).json({
                 msg: 'Error 400. Petición errónea'
             });
@@ -205,7 +215,7 @@ const eliminarArticulo = async (req, res) => {
 };
 
 
-
+// Exportar las funciones para que puedan ser utilizadas en otras partes del código
 module.exports = {
     obtenerArticulo,
     buscarUnArticuloPorNombre,

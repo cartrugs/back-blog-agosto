@@ -81,7 +81,6 @@ const articuloSchema = new Schema({
  * @property {string} excerpt - Extracto del artículo.
  * @property {string} category - Categoría del artículo.
  * @property {string} content - Contenido completo del artículo.
- * @property {Array<string>} keywords - Palabras clave relacionadas con el artículo.
  */
 
 
