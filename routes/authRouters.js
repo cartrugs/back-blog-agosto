@@ -23,13 +23,14 @@ const router = express.Router();
 
 router.post('/register',
     [
-        check('email', 'Email obligatório').isEmail(),
-        check('nombre', 'Nombre obligatório').not().isEmpty(),
-        check('password').notEmpty().withMessage('Contraseña obligatòria').isLength({ min: 6 }).withMessage('minimo 6 caracteres').matches(/^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/).withMessage('La contraseña debe contener pelo menos 1 mayuscula y 1 numero'),
+        check('email', 'email obligatorio').isEmail(),
+        check('nombre', 'Nombre obligatorio').not().isEmpty(),
+        check('password').notEmpty().withMessage('Contraseña obligatoria').isLength({ min: 6 }).withMessage('mínimo 6 caracteres').matches(/^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/).withMessage('La contraseña debe contener al menos 1 mayúscula y 1 número'),
         check('passConfirm').not().isEmpty(),
         validarEx
     ],
-    createUser);
+    createUser
+    );
 
 /**
  * Rutas relacionadas con la autenticación y el manejo de tokens JWT.
@@ -48,8 +49,8 @@ router.post('/register',
  */
 router.post('/login',
     [
-        check('email', 'Email obligatório').isEmail(),
-        check('password', 'Password obligatório').not().isEmpty()
+        check('email', 'email obligatorio').isEmail(),
+        check('password', 'Password obligatorio').not().isEmpty()
     ],
     loginUser
 );

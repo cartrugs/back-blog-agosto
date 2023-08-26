@@ -48,13 +48,11 @@ const validarJWT = (req, res, next) => {
 
     try {
         // Verifica y decodifica el token utilizando la clave secreta (JWT_SECRET) definida en las variables de entorno. Si el token es válido, payload contendrá la información codificada en el token
-        const payload = jwt.verify(token.process.env.JWT_SECRET);
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
 
         // Agrega el identificador ÚNICO `uid` del usuario extraído del token al objeto de solicitud `req`
         req.uid = payload.uid;       // Identificador único del usuario
         req.nombre = payload.nombre; // Nombre del usuario
-
-        //  Llama a la función next() para pasar al siguiente middleware o controlador en la cadena. Esto permite que la solicitud continúe su procesamiento normal.
         next();
     } catch (error) {
         // Si el token no es válido, devuelve una respuesta de error 401
@@ -63,6 +61,8 @@ const validarJWT = (req, res, next) => {
             msg: 'Invalid token'
         });
     }
+    //  Llama a la función next() para pasar al siguiente middleware o controlador en la cadena. Esto permite que la solicitud continúe su procesamiento normal.
+    
 };
 
 module.exports = { validarJWT };

@@ -30,6 +30,8 @@ const createUser = async (req, res) => {
         // Busca si ya existe un usuario con el mismo email
         let user = await User.findOne({ email: email });
 
+        console.log(user);
+
         if (user) {
             // Si el usuario ya existe, devuelve una respuesta de error
             return res.status(400).json({
@@ -37,6 +39,22 @@ const createUser = async (req, res) => {
                 msg: 'Ese usuario ya está registrado'
             });
         }
+        // user = new User(req.body);
+
+        // const salt = bcrypt.genSaltSync();
+        // user.password = bcrypt.hashSync(password, salt);
+
+        // await user.save()
+
+        // const token = await generarToken(user.id, user.nombre)
+
+        // res.status(201).json({
+        //     ok: true,
+        //     uid: user.id,
+        //     nombre: user.nombre,
+        //     email: user.email,
+        //     token
+        // })
 
         if (password !== passConfirm) {
             // Si las contraseñas no coinciden, devuelve una respuesta de error
@@ -45,6 +63,10 @@ const createUser = async (req, res) => {
                 msg: 'La contraseña introducida no coincide'
             });
         }
+
+        // Hash de la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('Hashed Password:', hashedPassword);
 
         // Crea un nuevo usuario con los datos proporcionados
         const newUser = { email, password, nombre, role, date };
@@ -84,11 +106,12 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
     // Extrae los datos del cuerpo de la solicitud
     const { email, password } = req.body;
+    console.log(email, 'email', password, 'password')
 
     try {
         // Busca un usuario con el email proporcionado
-        let user = await User.findOne({ email: email });
-        console.log(user, 'UN CONSOLE DE PRUEBA')
+        const user = await User.findOne({ email });
+        console.log(user, 'UN CONSOLE DE PRUEBA');
 
         if (!user) {
             // Si el usuario no existe, devuelve una respuesta de error
@@ -98,9 +121,15 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Compara la contraseña proporcionada con la almacenada en la base de datos
-        let passOk = await bcrypt.compare(password, user.password);
-        if (!passOk) {
+        const isPasswordValid =  bcrypt.compareSync(password, user.password);
+        console.log(isPasswordValid)
+
+        // Compara la contraseña proporcionada con el hash almacenado en la base de datos
+        // const passOk = await bcrypt.compare(password, user.password);
+        // console.log(passOk, 'COMPARACIÓN DE CONTRASEÑAS');
+
+        if (!isPasswordValid) {
+            console.log(!isPasswordValid)
             // Si la contraseña no coincide, devuelve una respuesta de error
             return res.status(400).json({
                 ok: false,
@@ -110,6 +139,7 @@ const loginUser = async (req, res) => {
 
         // Genera un token JWT para el usuario autenticado
         const token = await generarToken(user.id, user.nombre);
+        console.log('Token generado:', token); 
         res.status(200).json({
             ok: true,
             uid: user.id,
@@ -125,7 +155,6 @@ const loginUser = async (req, res) => {
         });
     }
 };
-
 
 // RENEW TOKEN
 
