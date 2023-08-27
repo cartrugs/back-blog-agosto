@@ -35,6 +35,12 @@ npm i
 
 ____________________________
 
+## Poner en marcha la aplicación: :rocket:
+```
+npm start
+```
+____________________________
+
 
 ## Poner en marcha el puerto: :electric_plug: 
 ```javascript
@@ -45,6 +51,6 @@ ____________________________
 ## Recuerda: :thinking:
 No olvides que para poder usar la API debes crear tu propio archivo .env en el que debes incluir: 
 
-- PORT = 3000 
+- PORT = Escoge_un_puerto
 - URI_DB= Tu_URI_de_Base_de_Datos
 - JWT_SECRET = Tu_Clave_Secreta

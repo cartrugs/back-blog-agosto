@@ -7,6 +7,8 @@ const { check } = require('express-validator');
 const { createUser, loginUser, renewToken } = require('../controllers/authController');
 const { validarEx } = require('../middleware/validation');
 const { validarJWT } = require('../middleware/validatorJWT');
+const { usuarioEsSuperAdmin } = require('../middleware/authorization');
+
 /**
  * Express Router utilizado para definir rutas relacionadas con la autenticación de usuarios.
  * @type {object}
@@ -65,5 +67,21 @@ router.post('/login',
  * @throws {500} - Error interno del servidor.
  */
 router.get('/renew', validarJWT, renewToken);
+
+/**
+ * Ruta GET restringida solo para superadministradores.
+ * @name GET /admin/solo-superadmin
+ * @function
+ * @memberof module:rutas
+ * @inner
+ * 
+ * @param {Object} req - El objeto de solicitud (request) de Express.
+ * @param {Object} res - El objeto de respuesta (response) de Express.
+ * @returns {void}
+ * @throws {Error} Acceso no autorizado - Si el usuario no es superadministrador.
+ */
+// router.delete('/usuarios/eliminar/:id', usuarioEsSuperAdmin, eliminarUsuario);
+
+
 
 module.exports = router;
