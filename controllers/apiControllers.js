@@ -96,6 +96,14 @@ const crearUnArticulo = async (req, res) => {
     const articulo = new Articulo(req.body);
 
     try {
+        // Verificar si el usuario autenticado es un editor
+        if (!req.user.isEditor) {
+            return res.status(403).json({
+                ok: false,
+                msg: 'Acceso denegado. Solo los editores pueden crear noticias.'
+            });
+        }
+
         // Obtener el título del artículo del cuerpo de la solicitud
         const { title } = req.body;
 
@@ -141,6 +149,14 @@ const editarArticulo = async (req, res) => {
     const id = req.params.id;
 
     try {
+        // Verificar si el usuario autenticado es un editor
+        if (!req.user.isEditor) {
+            return res.status(403).json({
+                ok: false,
+                msg: 'Acceso denegado. Solo los editores pueden crear noticias.'
+            });
+        }
+
         /**
          * Realizar una consulta a la base de datos utilizando el modelo Articulo y el método findByIdAndUpdate.
          * El método findByIdAndUpdate() busca en todos los documentos en la colección asociada al modelo Articulo.
@@ -185,6 +201,14 @@ const eliminarArticulo = async (req, res) => {
     const id = req.params.id;
 
     try {
+        // Verificar si el usuario autenticado es un editor
+        if (!req.user.isEditor) {
+            return res.status(403).json({
+                ok: false,
+                msg: 'Acceso denegado. Solo los editores pueden crear noticias.'
+            });
+        }
+        
         /**
         * Realizar una consulta a la base de datos utilizando el modelo Articulo y el método findByIdAndDelete.
         * @method findByIdAndDelete
