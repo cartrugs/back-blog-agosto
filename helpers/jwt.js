@@ -13,6 +13,7 @@ const  jwt = require('jsonwebtoken');
  * const token = await generarToken('usuario123', 'Nombre Apellido');
  * Genera el payload directamente en la función generarToken usando los parámetros uid y nombre.
  */
+
 const generarToken = (uid, nombre) => {
 
     return new Promise((resolve, reject) => {
@@ -38,6 +39,31 @@ const generarToken = (uid, nombre) => {
     
 };
 
+// const generarTokenYSetearCookie = (uid, nombre, res) => {
+//     const payload = { uid, nombre };
+
+//     return new Promise((resolve, reject) => {
+//         jwt.sign(
+//             payload,
+//             process.env.JWT_SECRET,
+//             { expiresIn: '1h' },
+//             (error, token) => {
+//                 if (error) {
+//                     console.log(error);
+//                     reject('Error al generar el token');
+//                 }
+
+//                 // Establecer el token como una cookie en la respuesta
+//                 res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
+
+//                 resolve(token);
+//             }
+//         );
+//     });
+// };
+
+
 module.exports = {
     generarToken
+    // generarTokenYSetearCookie
 };

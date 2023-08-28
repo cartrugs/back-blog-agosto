@@ -3,6 +3,7 @@
  */
 const User = require('../models/userBlog');
 const bcrypt = require('bcryptjs');
+const { check, validationResult } = require('express-validator');
 const { generarToken } = require('../helpers/jwt');
 
 // POST CREAR USER
@@ -104,6 +105,15 @@ const createUser = async (req, res) => {
  * @throws {500} Si ocurre un error interno en el servidor.
  */
 const loginUser = async (req, res) => {
+    // Validar y sanear inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            ok: false,
+            errors: errors.array()
+        });
+    }
+
     // Extrae los datos del cuerpo de la solicitud
     const { email, password } = req.body;
     console.log(email, 'email', password, 'password')
@@ -111,7 +121,7 @@ const loginUser = async (req, res) => {
     try {
         // Busca un usuario con el email proporcionado
         const user = await User.findOne({ email });
-        console.log(user, 'UN CONSOLE DE PRUEBA');
+        console.log(user, 'UN CONSOLE DE PRUEBA LOGIN USER CONTROLLER');
 
         if (!user) {
             // Si el usuario no existe, devuelve una respuesta de error
@@ -121,12 +131,8 @@ const loginUser = async (req, res) => {
             });
         }
 
-        const isPasswordValid =  bcrypt.compareSync(password, user.password);
-        console.log(isPasswordValid)
-
-        // Compara la contraseña proporcionada con el hash almacenado en la base de datos
-        // const passOk = await bcrypt.compare(password, user.password);
-        // console.log(passOk, 'COMPARACIÓN DE CONTRASEÑAS');
+        const isPasswordValid =  bcrypt.compare(password, user.password);/* El uso de la función bcrypt.compareSync o bcrypt.compare se diferencia en que bcrypt.compare es una función asincrónica que devuelve una promesa, mientras que bcrypt.compareSync es una función sincrónica que compara las contraseñas en el momento sin involucrar promesas.*/
+        console.log(isPasswordValid);
 
         if (!isPasswordValid) {
             console.log(!isPasswordValid)
@@ -151,7 +157,7 @@ const loginUser = async (req, res) => {
         // Manejo de errores y respuesta de error en caso de fallo
         res.status(500).json({
             ok: false,
-            msg: 'Contacta con el administrador'
+            msg: 'Ocurrió un error al procesar la solicitud'
         });
     }
 };

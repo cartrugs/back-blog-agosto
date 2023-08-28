@@ -42,7 +42,7 @@ npm start
 ____________________________
 
 
-## Poner en marcha el puerto: :electric_plug: 
+## Arranca el proyecto en modo desarrollo: :electric_plug: 
 ```javascript
 npm run dev 
 ``` 
@@ -54,3 +54,25 @@ No olvides que para poder usar la API debes crear tu propio archivo .env en el q
 - PORT = Escoge_un_puerto
 - URI_DB= Tu_URI_de_Base_de_Datos
 - JWT_SECRET = Tu_Clave_Secreta
+
+____________________________
+
+## Endpoints: :arrow_right:
+Recoger todos los artículos
+Método: GET
+URL: http://localhost:3000/api/v1/blog
+Crear un nuevo artículo
+Método: POST
+URL: http://localhost:3000/api/v1/blog
+Editar un artículo existente
+Método: PUT
+URL: http://localhost:3000/api/v1/blog/AÑADIR_UN_ID
+Eliminar un artículo
+Método: DELETE
+URL: http://localhost:3000/api/v1/blog/AÑADIR_UN_ID
+Crear un nuevo usuario
+Método: POST
+URL: http://localhost:3000/api/v1/auth/register
+Iniciar sesión de usuario
+Método: POST
+URL: http://localhost:3000/api/v1/auth/login
